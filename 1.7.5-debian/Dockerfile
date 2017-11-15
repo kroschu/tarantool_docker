@@ -73,7 +73,8 @@ RUN \
     set -ex \
     && apt-get update \
     && apt-get upgrade --yes \
-    && apt-get install --yes --no-install-recommends $BUILD_PACKAGES ca-certificates lua5.1 libyaml-dev libssl-dev libgomp1 libicu57 libunwind8 libcurl3 libev4 \
+    && apt-get install --yes --no-install-recommends $BUILD_PACKAGES ca-certificates lua5.1 libyaml-dev libssl1.0-dev libgomp1 libicu57 libunwind8 libcurl3 libev4 \
+    && ln -sf /usr/lib/x86_64-linux-gnu/libssl.so.1.0.2 /usr/lib/x86_64-linux-gnu/libssl.so \
     && : "---------- tarantool ----------" \
     && mkdir -p /usr/src/tarantool \
     && git clone "$TARANTOOL_DOWNLOAD_URL" /usr/src/tarantool \
