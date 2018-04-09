@@ -10,7 +10,7 @@ local log = require('log')
 local yaml = require('yaml')
 
 local TARANTOOL_DEFAULT_PORT = 3301
-local TARANTOOL_DEFAULT_SNAPSHOT_PERIOD = 3600 -- seconds
+local TARANTOOL_DEFAULT_CHECKPOINT_INTERVAL = 3600 -- seconds
 local CONSOLE_SOCKET_PATH = 'unix/:/var/run/tarantool/tarantool.sock'
 local CFG_FILE_PATH = '/etc/tarantool/config.yml'
 
@@ -167,14 +167,14 @@ local function wrapper_cfg(override)
 
         file_cfg.TARANTOOL_USER_NAME = os.getenv('TARANTOOL_USER_NAME')
         file_cfg.TARANTOOL_USER_PASSWORD = os.getenv('TARANTOOL_USER_PASSWORD')
-        file_cfg.TARANTOOL_SLAB_ALLOC_ARENA = os.getenv('TARANTOOL_SLAB_ALLOC_ARENA')
+        file_cfg.TARANTOOL_MEMTX_MEMORY = os.getenv('TARANTOOL_SLAB_ALLOC_ARENA')
         file_cfg.TARANTOOL_SLAB_ALLOC_FACTOR = os.getenv('TARANTOOL_SLAB_ALLOC_FACTOR')
         file_cfg.TARANTOOL_SLAB_ALLOC_MINIMAL = os.getenv('TARANTOOL_SLAB_ALLOC_MINIMAL')
         file_cfg.TARANTOOL_SLAB_ALLOC_MAXIMAL = os.getenv('TARANTOOL_SLAB_ALLOC_MAXIMAL')
         file_cfg.TARANTOOL_PORT = os.getenv('TARANTOOL_PORT')
         file_cfg.TARANTOOL_WAL_MODE = os.getenv('TARANTOOL_WAL_MODE')
         file_cfg.TARANTOOL_REPLICATION_SOURCE = os.getenv('TARANTOOL_REPLICATION_SOURCE')
-        file_cfg.TARANTOOL_SNAPSHOT_PERIOD = os.getenv('TARANTOOL_SNAPSHOT_PERIOD')
+        file_cfg.TARANTOOL_CHECKPOINT_INTERVAL = os.getenv('TARANTOOL_CHECKPOINT_INTERVAL')
 
         write_config(file_cfg)
     else
@@ -190,8 +190,8 @@ local function wrapper_cfg(override)
 
 
     local cfg = override or {}
-    cfg.slab_alloc_arena = tonumber(file_cfg.TARANTOOL_SLAB_ALLOC_ARENA) or
-        override.slab_alloc_arena
+    cfg.memtx_memory = tonumber(file_cfg.TARANTOOL_MEMTX_MEMORY) or
+        override.memtx_memory
     cfg.slab_alloc_factor = tonumber(file_cfg.TARANTOOL_SLAB_ALLOC_FACTOR) or
         override.slab_alloc_factor
     cfg.slab_alloc_maximal = tonumber(file_cfg.TARANTOOL_SLAB_ALLOC_MAXIMAL) or
@@ -202,11 +202,11 @@ local function wrapper_cfg(override)
         override.listen or TARANTOOL_DEFAULT_PORT
     cfg.wal_mode = file_cfg.TARANTOOL_WAL_MODE or
         override.wal_mode
-    cfg.snapshot_period = tonumber(file_cfg.TARANTOOL_SNAPSHOT_PERIOD) or
-        override.snapshot_period or TARANTOOL_DEFAULT_SNAPSHOT_PERIOD
+    cfg.checkpoint_interval = tonumber(file_cfg.TARANTOOL_CHECKPOINT_INTERVAL) or
+        override.checkpoint_interval or TARANTOOL_DEFAULT_CHECKPOINT_INTERVAL
 
     cfg.wal_dir = override.wal_dir or '/var/lib/tarantool'
-    cfg.snap_dir = override.snap_dir or '/var/lib/tarantool'
+    cfg.memtx_dir = override.memtx_dir or '/var/lib/tarantool'
     cfg.pid_file = override.pid_file or '/var/run/tarantool/tarantool.pid'
 
     local replication_source = file_cfg.TARANTOOL_REPLICATION_SOURCE
