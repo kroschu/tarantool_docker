@@ -26,23 +26,16 @@ RUN set -x \
 ENV TARANTOOL_VERSION=1.9.0-52-g38b2a29ff \
     TARANTOOL_DOWNLOAD_URL=https://github.com/tarantool/tarantool.git \
     TARANTOOL_INSTALL_LUADIR=/usr/local/share/tarantool \
-    LUAROCKS_URL=http://keplerproject.github.io/luarocks/releases/luarocks-2.3.0.tar.gz \
-    LUAROCK_AVRO_SCHEMA_REPO=https://github.com/tarantool/avro-schema.git \
-    LUAROCK_AVRO_SCHEMA_TAG=b49efa8 \
-    LUAROCK_EXPIRATIOND_REPO=https://github.com/tarantool/expirationd.git \
-    LUAROCK_EXPIRATIOND_TAG=9ec22b6 \
-    LUAROCK_QUEUE_REPO=https://github.com/tarantool/queue.git \
-    LUAROCK_QUEUE_TAG=24d730c \
-    LUAROCK_CONNPOOL_REPO=https://github.com/tarantool/connpool.git \
-    LUAROCK_CONNPOOL_TAG=89c2fe4 \
+    LUAROCKS_URL=https://github.com/tarantool/luarocks/archive/6e6fe62d9409fe2103c0fd091cccb3da0451faf5.tar.gz \
     LUAROCK_SHARD_REPO=https://github.com/tarantool/shard.git \
     LUAROCK_SHARD_TAG=8f8c5a7 \
-    LUAROCK_HTTP_REPO=https://github.com/tarantool/http.git \
-    LUAROCK_HTTP_TAG=67d8a9b \
-    LUAROCK_TARANTOOL_PROMETHEUS_REPO=https://github.com/tarantool/prometheus.git \
-    LUAROCK_TARANTOOL_PROMETHEUS_TAG=0654304 \
-    LUAROCK_TARANTOOL_CURL_REPO=https://github.com/tarantool/curl.git \
-    LUAROCK_TARANTOOL_CURL_TAG=2.2.7
+    LUAROCK_AVRO_SCHEMA_VERSION=2.0.1 \
+    LUAROCK_EXPERATIOND_VERSION=1.0.1 \
+    LUAROCK_QUEUE_VERSION=1.0.2 \
+    LUAROCK_CONNPOOL_VERSION=1.1.1 \
+    LUAROCK_HTTP_VERSION=1.0.1 \
+    LUAROCK_TARANTOOL_CURL_VERSION=2.3.1 \
+    LUAROCK_TARANTOOL_PROMETHEUS_VERSION=1.0.0 \
 
 COPY luarocks-config.lua /usr/local/etc/luarocks/config-5.1.lua
 
