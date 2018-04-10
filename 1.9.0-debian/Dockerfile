@@ -35,7 +35,7 @@ ENV TARANTOOL_VERSION=1.9.0-52-g38b2a29ff \
     LUAROCK_CONNPOOL_VERSION=1.1.1 \
     LUAROCK_HTTP_VERSION=1.0.1 \
     LUAROCK_TARANTOOL_CURL_VERSION=2.3.1 \
-    LUAROCK_TARANTOOL_PROMETHEUS_VERSION=1.0.0 \
+    LUAROCK_TARANTOOL_PROMETHEUS_VERSION=1.0.0
 
 COPY luarocks-config.lua /usr/local/etc/luarocks/config-5.1.lua
 
@@ -113,37 +113,23 @@ RUN \
     && mkdir -p /rocks \
     && luarocks install lua-term \
     && : "avro" \
-    && git clone $LUAROCK_AVRO_SCHEMA_REPO /rocks/avro \
-    && git -C /rocks/avro checkout $LUAROCK_AVRO_SCHEMA_TAG \
-    && (cd /rocks/avro && luarocks make *rockspec) \
+    && luarocks install avro-schema $LUAROCK_AVRO_SCHEMA_VERSION \
     && : "expirationd" \
-    && git clone $LUAROCK_EXPIRATIOND_REPO /rocks/expirationd \
-    && git -C /rocks/expirationd checkout $LUAROCK_EXPIRATIOND_TAG \
-    && (cd /rocks/expirationd && luarocks make *rockspec) \
+    && luarocks install expirationd $LUAROCK_EXPERATIOND_VERSION \
     && : "queue" \
-    && git clone $LUAROCK_QUEUE_REPO /rocks/queue \
-    && git -C /rocks/queue checkout $LUAROCK_QUEUE_TAG \
-    && (cd /rocks/queue && luarocks make *rockspec) \
+    && luarocks install queue $LUAROCK_QUEUE_VERSION \
     && : "connpool" \
-    && git clone $LUAROCK_CONNPOOL_REPO /rocks/connpool \
-    && git -C /rocks/connpool checkout $LUAROCK_CONNPOOL_TAG \
-    && (cd /rocks/connpool && luarocks make *rockspec) \
+    && luarocks install connpool $LUAROCK_CONNPOOL_VERSION \
     && : "shard" \
     && git clone $LUAROCK_SHARD_REPO /rocks/shard \
     && git -C /rocks/shard checkout $LUAROCK_SHARD_TAG \
     && (cd /rocks/shard && luarocks make *rockspec) \
     && : "http" \
-    && git clone $LUAROCK_HTTP_REPO /rocks/http \
-    && git -C /rocks/http checkout $LUAROCK_HTTP_TAG \
-    && (cd /rocks/http && luarocks make *rockspec) \
+    && luarocks install http $LUAROCK_HTTP_VERSION \
     && : "prometheus" \
-    && git clone $LUAROCK_TARANTOOL_PROMETHEUS_REPO /rocks/prometheus \
-    && git -C /rocks/prometheus checkout $LUAROCK_TARANTOOL_PROMETHEUS_TAG \
-    && (cd /rocks/prometheus && luarocks make *rockspec) \
+    && luarocks install prometheus $LUAROCK_TARANTOOL_PROMETHEUS_VERSION \
     && : "curl" \
-    && git clone $LUAROCK_TARANTOOL_CURL_REPO /rocks/curl \
-    && git -C /rocks/curl checkout $LUAROCK_TARANTOOL_CURL_TAG \
-    && (cd /rocks/curl && luarocks make *rockspec) \
+    && luarocks install tarantool-curl $LUAROCK_TARANTOOL_CURL_VERSION \
     && : "---------- remove build deps ----------" \
     && apt-get purge -y $BUILD_PACKAGES \
     && apt-get autoremove -y \
